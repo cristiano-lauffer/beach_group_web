@@ -1,10 +1,10 @@
-import CarouselImagens from './CarouselImagens.tsx'
-import imagem0 from '../assets/slide-img-0.jpg';
-import imagem1 from '../assets/slide-img-1.jpg';
-import imagem2 from '../assets/slide-img-2.jpg';
-import imagem3 from '../assets/slide-img-3.jpg';
-import imagem4 from '../assets/slide-img-4.jpg';
-import imagem5 from '../assets/slide-img-5.jpg';
+import CarouselImagens from '../CarouselImagens.tsx'
+import imagem0 from '../../assets/slide-img-0.jpg';
+import imagem1 from '../../assets/slide-img-1.jpg';
+import imagem2 from '../../assets/slide-img-2.jpg';
+import imagem3 from '../../assets/slide-img-3.jpg';
+import imagem4 from '../../assets/slide-img-4.jpg';
+import imagem5 from '../../assets/slide-img-5.jpg';
 
 let slides = [imagem0, imagem1, imagem2, imagem3, imagem4, imagem5];
 

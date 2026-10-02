@@ -1,9 +1,9 @@
-import CardCoach from './CardCoach'
+import CardCoach from '../CardCoach'
 
-import imagem0 from '../assets/coach1.jpg';
-import imagem1 from '../assets/coach2.jpg';
-import imagem2 from '../assets/coach3.jpg';
-import imagem3 from '../assets/coach4.jpg';
+import imagem0 from '../../assets/coach1.jpg';
+import imagem1 from '../../assets/coach2.jpg';
+import imagem2 from '../../assets/coach3.jpg';
+import imagem3 from '../../assets/coach4.jpg';
 
 const SecaoCoach = () => {
     return (
