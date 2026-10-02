@@ -1,9 +1,9 @@
-import Card from './Card'
+import Card from '../Card'
 
-import imagem0 from '../assets/foto3.jpg';
-import imagem1 from '../assets/foto7.jpg';
-import imagem2 from '../assets/foto6.jpg';
-import imagem3 from '../assets/foto5.jpg';
+import imagem0 from '../../assets/foto3.jpg';
+import imagem1 from '../../assets/foto7.jpg';
+import imagem2 from '../../assets/foto6.jpg';
+import imagem3 from '../../assets/foto5.jpg';
 
 const SecaoCards = () => {
     return (

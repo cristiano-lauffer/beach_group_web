@@ -1,4 +1,4 @@
-import imagem from '../assets/foto4.jpg';
+import imagem from '../../assets/foto4.jpg';
 
 const SecaoTexto = () => {
     return (
