@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+
 import Button from '../Button';
 import InputItem from '../InputItem';
 
@@ -47,7 +49,7 @@ export const UsersTable: React.FC = () => {
         setUsuarioEditando(u);
         setNomeEdit(u.nome);
         setEmailEdit(u.email);
-        setSenhaEdit(''); 
+        setSenhaEdit('');
     };
 
     // Função para salvar a alteração
@@ -60,7 +62,8 @@ export const UsersTable: React.FC = () => {
             await api.put(`/usuarios/${usuarioEditando.id}`, {
                 nome: nomeEdit,
                 email: emailEdit,
-                senha: senhaEdit }
+                senha: senhaEdit
+            }
             );
 
             // Atualiza a lista na tela sem precisar recarregar a página
@@ -81,44 +84,38 @@ export const UsersTable: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center w-fit bg-white/20 p-8 rounded-4xl backdrop-blur-lg shadow-lg gap-6 m-1">
-            <h1 className="text-xl font-semibold">Lista de usuários</h1>
+        <div className="flex flex-col justify-center items-center w-fit bg-white/20 p-4 rounded-4xl backdrop-blur-lg shadow-lg gap-6 m-1">
+            <h1 className="text-l font-semibold">Lista de usuários</h1>
 
             {/* secao dados */}
-            <div className="w-full bg-white/50 p-5 rounded-2xl space-y-3 text-sm max-h-100 overflow-y-auto">
+            <div className="w-full rounded-2xl text-sm max-h-100 ">
                 {erro && <p className="text-red-500 font-semibold">{erro}</p>}
 
-                <table className="border-collapse border border-gray-500 p-1 ">
+                <table className="p-1 border-separate border-spacing-1">
                     <thead>
-                        <tr className="bg-gray-400/50">
-                            <th className="border border-gray-500 p-2">ID</th>
-                            <th className="border border-gray-500 p-2">Nome</th>
-                            <th className="border border-gray-500 p-2">E-mail</th>
-                            <th className="border border-gray-500 p-2">Ações</th>
+                        <tr className="text-left">
+                            <th className="">ID</th>
+                            <th className="">Nome</th>
+                            <th className="">E-mail</th>
+                            <th className="">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {usuarios.map((usuario) => (
                             <tr key={usuario.id}>
-                                <td className="border border-gray-500 p-1 px-6">{usuario.id}</td>
-                                <td className="border border-gray-500 p-1">{usuario.nome}</td>
-                                <td className="border border-gray-500 p-1">{usuario.email}</td>
-                                <td className="border border-gray-500 p-1">
+                                <td className="bg-white/20 mt-2 px-6">{usuario.id}</td>
+                                <td className="bg-white/20 p-1">{usuario.nome}</td>
+                                <td className="bg-white/20 p-1">{usuario.email}</td>
+                                <td className="bg-white/20 p-1">
                                     <div className='flex'>
-                                        <Button
-                                            title="Editar"
-                                            tamanho="w-full"
-                                            tipo="button"
+                                        <button className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'
                                             onClick={() => handleAbrirEdicao(usuario)}
-                                        />
-                                        <Button
-                                            title="Excluir"
-                                            textColor="text-white"
-                                            bgColor="bg-red-500"
-                                            hoverColor="hover:bg-red-800"
-                                            tamanho="w-full"
-                                            tipo="button"
-                                        />
+                                        >
+                                            <PencilSquareIcon className="block h-5 w-5" aria-hidden="true" />
+                                        </button>
+                                        <button className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 ml-1'>
+                                            <TrashIcon className="block h-5 w-5" aria-hidden="true" />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
