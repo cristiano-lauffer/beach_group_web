@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import { authService } from '../../services/authService';
 
 
 import { PencilSquareIcon, TrashIcon, ArrowRightStartOnRectangleIcon, DocumentCheckIcon, XCircleIcon } from '@heroicons/react/24/outline';
@@ -78,12 +79,37 @@ export const UserCard: React.FC = () => {
       setUsuario(usuarioAtualizado);
       //Atualiza o localStorage com os novos dados
       localStorage.setItem('@BeachGroup:user', JSON.stringify(usuarioAtualizado));
-
+      window.location.reload();
       setUsuarioEditando(null);
     } catch (err) {
       alert('Erro ao atualizar o usuário.');
     } finally {
       setSalvando(false);
+    }
+  };
+
+  const handleDeletarUsuario = async () => {
+    if (!usuario) return;
+
+    const confirmar = window.confirm(
+      `Tem certeza que deseja excluir sua conta, ${usuario.nome}?`
+    );
+
+    if (!confirmar) return;
+
+    try {
+      await authService.deletarUsuario(usuario.id);
+
+      // Limpa os dados da sessão
+      authService.logout();
+
+      // Limpa o estado do componente
+      setUsuario(null);
+
+      // Redireciona para o login
+      navigate('/login');
+    } catch (err) {
+      alert('Erro ao excluir a conta. Tente novamente.');
     }
   };
 
@@ -116,15 +142,15 @@ export const UserCard: React.FC = () => {
 
       {!usuarioEditando && (
         <div className="flex">
-          <button className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'
+          <button type='button' className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'
             onClick={() => handleAbrirEdicao(usuario)}
           >
             <PencilSquareIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Editar</p>
           </button>
-          <button className='rounded-full p-0.75 cursor-pointer flex bg-white/30 hover:bg-white/50 ml-1'>
+          <button type='button' onClick={handleDeletarUsuario} className='rounded-full p-0.75 cursor-pointer flex bg-white/30 hover:bg-white/50 ml-1'>
             <TrashIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Excluir</p>
           </button>
-          <button onClick={handleLogout} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 ml-1'>
+          <button type='button' onClick={handleLogout} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 ml-1'>
             <ArrowRightStartOnRectangleIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Sair</p>
           </button>
         </div>
@@ -166,10 +192,10 @@ export const UserCard: React.FC = () => {
 
             <div className="flex gap-2 mt-4">
 
-              <button className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
+              <button type='submit' className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
                 <DocumentCheckIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">{salvando ? "Salvando..." : "Salvar"}</p>
               </button>
-               <button onClick={() => setUsuarioEditando(null)} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
+              <button type='button' onClick={() => setUsuarioEditando(null)} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
                 <XCircleIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Cancelar</p>
               </button>
 

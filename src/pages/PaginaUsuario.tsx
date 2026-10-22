@@ -13,7 +13,7 @@ const PaginaUsuario = () => {
 
       <main className='flex'>
         <UserCard />
-        {/* <UsersTable /> */}
+        <UsersTable />
       </main>
 
       <footer>

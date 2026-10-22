@@ -47,6 +47,10 @@ export const authService = {
     return response.data;
   },
 
+  async deletarUsuario(id: number): Promise<void> {
+    await api.delete(`/usuarios/${id}`);
+},
+
   logout() {
     localStorage.removeItem('@BeachGroup:token');
     localStorage.removeItem('@BeachGroup:user');
