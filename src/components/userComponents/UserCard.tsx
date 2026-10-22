@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
-import { authService } from '../../services/authService';
+import { userService } from '../../services/userService';
+import { authService } from '../../services/authService'
 
 
 import { PencilSquareIcon, TrashIcon, ArrowRightStartOnRectangleIcon, DocumentCheckIcon, XCircleIcon } from '@heroicons/react/24/outline';
@@ -98,7 +99,7 @@ export const UserCard: React.FC = () => {
     if (!confirmar) return;
 
     try {
-      await authService.deletarUsuario(usuario.id);
+      await userService.deletar(usuario.id);
 
       // Limpa os dados da sessão
       authService.logout();

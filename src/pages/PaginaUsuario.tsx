@@ -1,4 +1,5 @@
 import Logomarca from '../components/Logomarca';
+import { QuadrasTable } from '../components/userComponents/QuadrasTable';
 import UserCard from '../components/userComponents/UserCard';
 import { UsersTable } from '../components/userComponents/UsersTable';
 
@@ -14,6 +15,7 @@ const PaginaUsuario = () => {
       <main className='flex'>
         <UserCard />
         <UsersTable />
+        <QuadrasTable />
       </main>
 
       <footer>

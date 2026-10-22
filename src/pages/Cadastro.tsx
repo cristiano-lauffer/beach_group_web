@@ -3,7 +3,7 @@ import InputItem from '../components/InputItem'
 import Logomarca from '../components/Logomarca'
 
 import React, { useState } from 'react';
-import { authService } from '../services/authService';
+import { userService } from '../services/userService';
 import { useNavigate } from 'react-router-dom';
 
 export const Cadastro: React.FC = () => {
@@ -27,7 +27,7 @@ export const Cadastro: React.FC = () => {
         }
 
         try {
-            await authService.cadastrar({ nome, email, senha });
+            await userService.cadastrar({ nome, email, senha });
 
             setSucesso('Conta criada com sucesso! Redirecionando...');
             setTimeout(() => {
