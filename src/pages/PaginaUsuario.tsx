@@ -12,8 +12,8 @@ const PaginaUsuario = () => {
       </header>
 
       <main className='flex'>
-        {/* <UserCard /> */}
-        <UsersTable />
+        <UserCard />
+        {/* <UsersTable /> */}
       </main>
 
       <footer>

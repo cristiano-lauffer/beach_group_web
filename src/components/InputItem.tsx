@@ -20,7 +20,7 @@ const InputItem = ({ title, tipo, value, onChange, bgColor = "bg-white/20", focu
                 value={value}
                 onChange={onChange}
                 required
-                className={`${bgColor} ${focus} ${textColor} text-lg py-1.5 px-3 outline-none  rounded-full ${tamanho} text-[12px] cursor-pointer transition-colors duration-300`}
+                className={`${bgColor} ${focus} ${textColor} text-sm py-1.5 px-3 outline-none  rounded-full ${tamanho} text-[12px] cursor-pointer transition-colors duration-300`}
             />
         </div>
     )
