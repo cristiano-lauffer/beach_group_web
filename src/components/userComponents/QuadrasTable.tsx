@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 
-import {
-    TrashIcon,
-} from '@heroicons/react/24/outline';
+import { TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
 interface Quadra {
     oid: number;
@@ -86,7 +84,7 @@ export const QuadrasTable: React.FC = () => {
     return (
         <div className="flex flex-col justify-center items-center w-fit bg-white/20 p-4 rounded-4xl backdrop-blur-lg shadow-lg gap-6 m-1">
 
-            <h1 className="text-lg font-semibold">
+            <h1 className="text-l font-semibold">
                 Lista de quadras
             </h1>
 
@@ -106,43 +104,47 @@ export const QuadrasTable: React.FC = () => {
                     <table className="p-1 border-separate border-spacing-1">
                         <thead>
                             <tr className="text-left">
-                                <th className="p-1">ID</th>
-                                <th className="p-1">Nome</th>
-                                <th className="p-1">Abertura</th>
-                                <th className="p-1">Fechamento</th>
-                                <th className="p-1">Valor</th>
-                                <th className="p-1">Ações</th>
+                                <th className="">ID</th>
+                                <th className="">Nome</th>
+                                <th className="">Abertura</th>
+                                <th className="">Fechamento</th>
+                                <th className="">Valor</th>
+                                <th className="">Ações</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {quadras.map((quadra) => (
                                 <tr key={quadra.oid}>
-                                    <td className="bg-white/20 px-3 py-2">
+                                    <td className="bg-white/20 px-3">
                                         {quadra.oid}
                                     </td>
 
-                                    <td className="bg-white/20 p-2">
+                                    <td className="bg-white/20 p-1">
                                         {quadra.nome}
                                     </td>
 
-                                    <td className="bg-white/20 p-2">
+                                    <td className="bg-white/20 p-1">
                                         {formatarHora(
                                             quadra.horFuncionamentoInicio
                                         )}
                                     </td>
 
-                                    <td className="bg-white/20 p-2">
+                                    <td className="bg-white/20 p-1">
                                         {formatarHora(
                                             quadra.horFuncionamentoFim
                                         )}
                                     </td>
 
-                                    <td className="bg-white/20 p-2">
+                                    <td className="bg-white/20 p-1">
                                         {formatarValor(quadra.vlrQuadra)}
                                     </td>
 
-                                    <td className="bg-white/20 p-2">
+                                    <td className="bg-white/20 p-1 flex justify-center items-center">
+                                        <button type="button" className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-green-200 pl-1'
+                                        >
+                                            <PencilSquareIcon className="block h-5 w-5" aria-hidden="true" />
+                                        </button>
                                         <button
                                             type="button"
                                             disabled={excluindoId === quadra.oid}
@@ -150,7 +152,7 @@ export const QuadrasTable: React.FC = () => {
                                                 handleDeletarQuadra(quadra.oid)
                                             }
                                             title="Excluir quadra"
-                                            className="rounded-full p-1 cursor-pointer bg-white/30 hover:bg-red-200 disabled:opacity-50"
+                                            className="rounded-full p-1 cursor-pointer bg-white/30 hover:bg-red-200 disabled:opacity-50 mx-1"
                                         >
                                             <TrashIcon
                                                 className="h-5 w-5"

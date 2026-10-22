@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
-import { authService } from '../../services/authService';
+import { userService } from '../../services/userService';
 
 import { PencilSquareIcon, TrashIcon, DocumentCheckIcon, XCircleIcon } from '@heroicons/react/24/outline';
 
@@ -91,7 +91,7 @@ export const UsersTable: React.FC = () => {
         if (!confirmar) return;
 
         try {
-            await authService.deletarUsuario(id);
+            await userService.deletar(id);
 
             // Remove o usuário da lista exibida
             setUsuarios((prev) =>
@@ -124,19 +124,19 @@ export const UsersTable: React.FC = () => {
                         <tbody>
                             {usuarios.map((usuario) => (
                                 <tr key={usuario.id}>
-                                    <td className="bg-white/20 mt-2 px-6">{usuario.id}</td>
+                                    <td className="bg-white/20 px-3">{usuario.id}</td>
                                     <td className="bg-white/20 p-1">{usuario.nome}</td>
                                     <td className="bg-white/20 p-1">{usuario.email}</td>
                                     <td className="bg-white/20 p-1">
                                         <div className='flex'>
-                                            <button className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'
+                                            <button type="button" className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-green-200 pl-1'
                                                 onClick={() => handleAbrirEdicao(usuario)}
                                             >
                                                 <PencilSquareIcon className="block h-5 w-5" aria-hidden="true" />
                                             </button>
                                             <button type="button"
                                                 onClick={() => handleDeletarUsuario(usuario.id)}
-                                                title="Excluir usuário" className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 ml-1'>
+                                                title="Excluir usuário" className='rounded-full p-0.75 cursor-pointer bg-white/30 hover:bg-red-200 ml-1'>
                                                 <TrashIcon className="block h-5 w-5" aria-hidden="true" />
                                             </button>
                                         </div>

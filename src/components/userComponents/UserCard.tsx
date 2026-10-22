@@ -120,7 +120,7 @@ export const UserCard: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-100 bg-white/20 p-8 rounded-4xl backdrop-blur-lg shadow-lg gap-6 m-1">
+    <div className="flex flex-col justify-center items-center w-100 bg-white/20 p-4 rounded-4xl backdrop-blur-lg shadow-lg gap-4 m-2">
       {/* secao dados */}
       {!usuarioEditando && (
         <h1 className="text-l font-semibold">Dados do usuário</h1>
@@ -167,7 +167,6 @@ export const UserCard: React.FC = () => {
             <InputItem
               title="Nome"
               tipo="text"
-              bgColor="bg-sky-100/80"
               tamanho='text-sm w-full'
               value={nomeEdit}
               onChange={(e) => setNomeEdit(e.target.value)}
@@ -176,7 +175,6 @@ export const UserCard: React.FC = () => {
             <InputItem
               title="E-mail"
               tipo="email"
-              bgColor="bg-sky-100/80"
               tamanho='text-sm w-full'
               value={emailEdit}
               onChange={(e) => setEmailEdit(e.target.value)}
