@@ -4,6 +4,7 @@ export interface Usuario {
   id: number;
   nome: string;
   email: string;
+  indAdmin?: boolean;
 }
 
 export interface CriarUsuarioRequest {
@@ -16,6 +17,7 @@ export interface AtualizarUsuarioRequest {
   nome?: string;
   email?: string;
   senha?: string;
+  indAdmin?: boolean;
 }
 
 export interface UsuarioCriadoResponse {
