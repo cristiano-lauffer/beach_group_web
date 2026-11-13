@@ -12,14 +12,11 @@ const PaginaUsuario = () => {
   const [usuarioId, setUsuarioId] = useState<number>(0);
 
   useEffect(() => {
-    // Exemplo: recupera os dados do usuário autenticado do localStorage
-    // (Ajuste a chave conforme o que você utilizou no seu sistema de login)
     const usuarioStorage = localStorage.getItem('@BeachGroup:usuario');
     
     if (usuarioStorage) {
       try {
         const usuario = JSON.parse(usuarioStorage);
-        // Garanta que a propriedade corrisponde ao ID no seu objeto (ex: oid, id, oidUsuario)
         if (usuario?.oid) {
           setUsuarioId(usuario.oid);
         }
