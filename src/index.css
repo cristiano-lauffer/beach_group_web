@@ -4,6 +4,7 @@
 :root {
   --background-img-md: url('./assets/fundo1.png'); 
   --background-img: url('./assets/fundo2.png'); 
+  --background-img-limpo: url('./assets/fundo3.jpeg');
 
   --color-primary: oklch(21% 0.034 264.665);
   /* --color-light-green: #D3FE01; */

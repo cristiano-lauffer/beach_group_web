@@ -1,6 +1,6 @@
 import Button from './Button.tsx'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'; // Ícones sugeridos para o menu
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'; 
 
 //typescript:
 type CardCoachProps = {

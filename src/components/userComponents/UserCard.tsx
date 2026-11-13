@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import { userService } from '../../services/userService';
+import { authService } from '../../services/authService'
 
-import Button from '../Button';
+
+import { PencilSquareIcon, TrashIcon, ArrowRightStartOnRectangleIcon, DocumentCheckIcon, XCircleIcon } from '@heroicons/react/24/outline';
+
 import InputItem from '../InputItem';
 
 interface Usuario {
@@ -76,12 +80,37 @@ export const UserCard: React.FC = () => {
       setUsuario(usuarioAtualizado);
       //Atualiza o localStorage com os novos dados
       localStorage.setItem('@BeachGroup:user', JSON.stringify(usuarioAtualizado));
-
+      window.location.reload();
       setUsuarioEditando(null);
     } catch (err) {
       alert('Erro ao atualizar o usuário.');
     } finally {
       setSalvando(false);
+    }
+  };
+
+  const handleDeletarUsuario = async () => {
+    if (!usuario) return;
+
+    const confirmar = window.confirm(
+      `Tem certeza que deseja excluir sua conta, ${usuario.nome}?`
+    );
+
+    if (!confirmar) return;
+
+    try {
+      await userService.deletar(usuario.id);
+
+      // Limpa os dados da sessão
+      authService.logout();
+
+      // Limpa o estado do componente
+      setUsuario(null);
+
+      // Redireciona para o login
+      navigate('/login');
+    } catch (err) {
+      alert('Erro ao excluir a conta. Tente novamente.');
     }
   };
 
@@ -91,92 +120,86 @@ export const UserCard: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center w-100 bg-white/20 p-8 rounded-4xl backdrop-blur-lg shadow-lg gap-6 m-1">
-      <h1 className="text-xl font-semibold">Dados do usuário</h1>
+    <div className="flex flex-col justify-center items-center w-100 bg-white/20 p-4 rounded-4xl backdrop-blur-lg shadow-lg gap-4 m-2">
+      {/* secao dados */}
+      {!usuarioEditando && (
+        <h1 className="text-l font-semibold">Dados do usuário</h1>
+      )}
 
       {/* secao dados */}
-      <div className="w-full bg-white/50 p-5 rounded-2xl space-y-3 text-sm">
-        <p>
-          <strong className="">ID do Usuário:</strong> {usuario.id}
-        </p>
-        <p>
-          <strong className="">Nome:</strong> {usuario.nome}
-        </p>
-        <p>
-          <strong className="">E-mail:</strong> {usuario.email}
-        </p>
-      </div>
+      {!usuarioEditando && (
+        <div className="w-full bg-white/50 p-5 rounded-2xl space-y-3 text-sm">
+          <p>
+            <strong className="">ID do Usuário:</strong> {usuario.id}
+          </p>
+          <p>
+            <strong className="">Nome:</strong> {usuario.nome}
+          </p>
+          <p>
+            <strong className="">E-mail:</strong> {usuario.email}
+          </p>
+        </div>
+      )}
 
-      <div className="flex flex-col gap-3 w-full">
-        
-        <Button
-          title="Editar"
-          tamanho="w-full"
-          tipo="button"
-          onClick={() => handleAbrirEdicao(usuario)}
-        />
-        <Button
-          title="Sair"
-          textColor="text-white"
-          bgColor="bg-red-500"
-          hoverColor="hover:bg-red-800"
-          onClick={handleLogout}
-          tamanho="w-full"
-          tipo="button"
-        />
-      </div>
+      {!usuarioEditando && (
+        <div className="flex">
+          <button type='button' className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'
+            onClick={() => handleAbrirEdicao(usuario)}
+          >
+            <PencilSquareIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Editar</p>
+          </button>
+          <button type='button' onClick={handleDeletarUsuario} className='rounded-full p-0.75 cursor-pointer flex bg-white/30 hover:bg-white/50 ml-1'>
+            <TrashIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Excluir</p>
+          </button>
+          <button type='button' onClick={handleLogout} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 ml-1'>
+            <ArrowRightStartOnRectangleIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Sair</p>
+          </button>
+        </div>
+      )}
 
       {/* MODAL DE EDIÇÃO */}
       {usuarioEditando && (
-        <div className="fixed inset-0 backdrop-blur-lg flex items-center justify-center w-full bg-sky-500 p-5 rounded-2xl  z-50">
-          <div className="bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md flex flex-col gap-4 text-gray-800">
-            <h2 className="text-lg font-bold">Editar: {usuarioEditando.nome} - ID: {usuarioEditando.id}</h2>
+        <div className=" p-6 rounded-2xl w-[90%] max-w-md flex flex-col gap-4 text-gray-800">
+          <h2 className="text-l font-bold">Editar: {usuarioEditando.nome} </h2>
+          <p className="text-l font-bold">ID: {usuarioEditando.id}</p>
 
-            <form onSubmit={handleSalvarEdicao} className="flex flex-col gap-3">
-              <InputItem
-                title="Nome"
-                tipo="text"
-                bgColor="bg-sky-100/80"
-                tamanho='w-full'
-                value={nomeEdit}
-                onChange={(e) => setNomeEdit(e.target.value)}
-              />
+          <form onSubmit={handleSalvarEdicao} className="flex flex-col gap-3">
+            <InputItem
+              title="Nome"
+              tipo="text"
+              tamanho='text-sm w-full'
+              value={nomeEdit}
+              onChange={(e) => setNomeEdit(e.target.value)}
+            />
 
-              <InputItem
-                title="E-mail"
-                tipo="email"
-                bgColor="bg-sky-100/80"
-                tamanho='w-full'
-                value={emailEdit}
-                onChange={(e) => setEmailEdit(e.target.value)}
-              />
+            <InputItem
+              title="E-mail"
+              tipo="email"
+              tamanho='text-sm w-full'
+              value={emailEdit}
+              onChange={(e) => setEmailEdit(e.target.value)}
+            />
 
-              <InputItem
-                title="Senha"
-                tipo="password"
-                bgColor="bg-sky-100/80"
-                tamanho='w-full'
-                value={senhaEdit}
-                onChange={(e) => setSenhaEdit(e.target.value)}
-              />
+            <InputItem
+              title="Senha"
+              tipo="password"
+              bgColor="bg-sky-100/80"
+              tamanho='text-sm w-full'
+              value={senhaEdit}
+              onChange={(e) => setSenhaEdit(e.target.value)}
+            />
 
-              <div className="flex gap-2 mt-4">
-                <Button
-                  title={"Salvar"}
-                  tamanho="w-full"
-                  tipo="submit"
-                />
-                <Button
-                  title="Cancelar"
-                  bgColor="bg-gray-400"
-                  hoverColor="hover:bg-gray-500"
-                  tamanho="w-full"
-                  tipo="button"
-                  onClick={() => setUsuarioEditando(null)}
-                />
-              </div>
-            </form>
-          </div>
+            <div className="flex gap-2 mt-4">
+
+              <button type='submit' className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
+                <DocumentCheckIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">{salvando ? "Salvando..." : "Salvar"}</p>
+              </button>
+              <button type='button' onClick={() => setUsuarioEditando(null)} className='rounded-full flex p-0.75 cursor-pointer bg-white/30 hover:bg-white/50 pl-1'>
+                <XCircleIcon className="block h-5 w-5" aria-hidden="true" /> <p className="text-xs py-0.5 px-1">Cancelar</p>
+              </button>
+
+            </div>
+          </form>
         </div>
       )}
     </div>
